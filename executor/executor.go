@@ -86,11 +86,11 @@ func (e *Executor) startFetchingExecCtxsFromSgn() {
 		log.Tracef("Got %d execution contexts", len(execCtxs))
 		execCtxsToSave := []*msgtypes.ExecutionContext{}
 		for i := range execCtxs {
-			// TODO: process only messages to or from target chain, e.g., sapphire testnet (0x5aff)
-			//if execCtxs[i].Message.SrcChainId == 0x5aff || execCtxs[i].Message.DstChainId == 0x5aff {
-			//	execCtxsToSave = append(execCtxsToSave, &execCtxs[i])
-			//}
-			execCtxsToSave = append(execCtxsToSave, &execCtxs[i])
+			// TODO: add a config option for this
+			//process only messages to or from target chain, e.g., sapphire testnet (0x5aff)
+			if execCtxs[i].Message.SrcChainId == 0x5aff || execCtxs[i].Message.DstChainId == 0x5aff {
+				execCtxsToSave = append(execCtxsToSave, &execCtxs[i])
+			}
 		}
 		db.SaveExecutionContexts(execCtxsToSave)
 	}
